@@ -7,9 +7,40 @@ on:
 
 jobs:
   bump:
-    name: Echo runned
+    name: Merge release branch
     runs-on: ubuntu-20.04
 
+    permissions:
+      contents: write
+    
     steps:
-      - name: Run echo
-        run: echo "post-release Runned!"
+        - name: Checkout release/${{ github.event.release.tag_name }}
+          uses: actions/checkout@v4.1.1
+          with:
+            ref: release/${{ github.event.release.tag_name }}
+            lfs: true
+  
+        - name: Configure git
+          run: |
+            git config user.name "Lichtblick"
+            git config user.email "lichtblick@bmwgroup.com"
+  
+        - id: bump-version
+          uses: foxglove/action-bump-version@v1
+          with:
+            version: ${{ github.event.release.tag_name }}-dev
+            commit-message: Bump dev
+            push: true
+  
+        - name: Merge release into main
+          uses: octokit/request-action@v2.x
+          with:
+            route: POST /repos/{owner}/{repo}/merges
+            #owner: lichtblick-suite
+            #repo: lichtblick
+            #base: main
+            #head: release/${{ github.event.release.tag_name }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
