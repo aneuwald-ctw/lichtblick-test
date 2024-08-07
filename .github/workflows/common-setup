@@ -1,4 +1,4 @@
-name: Common Checkout and Install Setup
+name: Common Setup
 
 on:
   workflow_call:
