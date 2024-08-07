@@ -8,14 +8,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.1
+        with:
+          lfs: true
 
-    - name: Build prod files
-      run: |
-        yarn run desktop:build:prod
+      - uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 16.17
+      - run: corepack enable yarn
 
-    - name: Build package
-      run: |
-        yarn run package:darwin
-        
+      - run: yarn install --immutable
+  
+      - name: Build prod files
+        run: |
+          yarn run desktop:build:prod
+  
+      - name: Build package
+        run: |
+          yarn run package:darwin
+          
