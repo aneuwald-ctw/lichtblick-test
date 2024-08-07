@@ -1,0 +1,35 @@
+name: Common Checkout and Install Setup
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: 'The operating system to run on'
+        required: true
+        default: 'ubuntu-latest'
+        type: 'string'
+      node_version:
+        description: 'The Node.js version to use'
+        required: true
+        default: '16.17'
+        type: 'string'
+        
+jobs:
+  setup:
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4.1.1
+      with:
+          lfs: true
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4.0.3
+      with:
+        node-version: ${{ inputs.node_version }}
+
+    - name: Enable corepack
+      run: corepack enable yarn
+
+    - run: yarn install --immutable
