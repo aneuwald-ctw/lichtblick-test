@@ -35,7 +35,7 @@ jobs:
           if [ "${{ matrix.os }}" == "windows-latest" ]; then
             yarn run package:win
           elif [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-            yarn run package:deb
+            yarn run package:linux
           elif [ "${{ matrix.os }}" == "macos-latest" ]; then
             yarn run package:darwin
           fi
