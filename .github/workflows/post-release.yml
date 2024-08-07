@@ -25,12 +25,12 @@ jobs:
             git config user.name "Lichtblick"
             git config user.email "lichtblick@bmwgroup.com"
   
-        - id: bump-version
-          uses: foxglove/action-bump-version@v1
-          with:
-            version: ${{ github.event.release.tag_name }}-dev
-            commit-message: Bump dev
-            push: true
+        #- id: bump-version
+        #  uses: foxglove/action-bump-version@v1
+        #  with:
+        #    version: ${{ github.event.release.tag_name }}-dev
+        #    commit-message: Bump dev
+        #    push: true
   
         - name: Merge release into main
           uses: octokit/request-action@v2.x
