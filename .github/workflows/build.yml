@@ -5,10 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: macos-latest
         
     steps:
       - name: Checkout Repository
@@ -30,21 +27,15 @@ jobs:
         run: |
           yarn run desktop:build:prod
   
-      - name: Build software
+      - name: Build software in parallel
         run: |
-          if [ "${{ matrix.os }}" == "windows-latest" ]; then
-            yarn run package:win
-          elif [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-            yarn run package:linux
-          elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-            yarn run package:darwin
-          fi
+          yarn run package:win &
+          yarn run package:linux &
+          yarn run package:darwin &
+          wait
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}-build
-          path: |
-            ./output/windows/*  # Adjust paths as per your build scripts
-            ./output/ubuntu/*
-            ./output/macos/*
+          path: ./dist/* 
