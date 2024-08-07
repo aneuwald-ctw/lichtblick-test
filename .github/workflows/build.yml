@@ -34,8 +34,20 @@ jobs:
           yarn run package:darwin &
           wait
 
-      - name: Upload build artifact
+      - name: Upload build artifact (Windows)
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }}-build
-          path: ./dist/* 
+          name: windows-build
+          path: ./dist/*-win-x64.exe
+
+      - name: Upload build artifact (macOS)
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-build
+          path: ./dist/*-mac-universal.dmg 
+
+      - name: Upload build artifact (Linux)
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-build
+          path: ./dist/*-linux-amd64.deb
