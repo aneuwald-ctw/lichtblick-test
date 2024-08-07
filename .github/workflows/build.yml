@@ -11,8 +11,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Run a Command
+    - name: Build prod files
       run: |
-        echo "Hello, this is a manually triggered action!"
-        # Replace the following line with your command
-        your-command-here
+        yarn run desktop:build:prod
+
+    - name: Build package
+      run: |
+        yarn run package:darwin
+        
