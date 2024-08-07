@@ -4,25 +4,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_on_mac:
-    runs-on: macOS-latest
-
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        
     steps:
-      - uses: actions/checkout@v4.1.1
-        with:
-          lfs: true
-
-      - uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 16.17
-      - run: corepack enable yarn
-
-      - run: yarn install --immutable
+      - name: Call checkout and install setup
+        uses: ./.github/workflows/common-setup.yml
   
       - name: Build prod files
         run: |
           yarn run desktop:build:prod
   
-      - name: Build package
+      - name: Build software
         run: |
-          yarn run package:darwin
+          if [ "${{ matrix.os }}" == "windows-latest" ]; then
+            yarn run package:win
+          elif [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            yarn run package:deb
+          elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+            yarn run package:darwin
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }}-build
+          path: |
+            ./output/windows/*  # Adjust paths as per your build scripts
+            ./output/ubuntu/*
+            ./output/macos/*
