@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: macos-build
-          path: ./dist/*-mac-universal.dmg 
+          path: ./dist/*-mac-universal.dmg
 
       - name: Upload build artifact (Linux)
         uses: actions/upload-artifact@v3
