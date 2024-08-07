@@ -28,5 +28,7 @@ echo "\${index_html/"\$replace_pattern"/\$replace_value}" > index.html
 exec "\$@"
 EOF
 
+#teste diff
+
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
 CMD ["caddy", "file-server", "--listen", ":8080"]
