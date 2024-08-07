@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-command:
-    runs-on: ubuntu-latest
+  build_on_mac:
+    runs-on: macOS-latest
 
     steps:
       - uses: actions/checkout@v4.1.1
@@ -26,4 +26,3 @@ jobs:
       - name: Build package
         run: |
           yarn run package:darwin
-          
