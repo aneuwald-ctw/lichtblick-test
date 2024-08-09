@@ -47,12 +47,12 @@ jobs:
           #wait
           # comment it for test
           mkdir dist
-          touch dist/lichtblick-${{ env.new_version }}-linux-amd64.deb
-          touch dist/lichtblick-${{ env.new_version }}-mac-universal.dmg
-          touch dist/lichtblick-${{ env.new_version }}-win.exe
-          touch dist/latest-linux.yml
-          touch dist/latest-mac.yml
-          touch dist/latest.yml
+          echo 42 > dist/lichtblick-${{ env.new_version }}-linux-amd64.deb
+          echo 42 > dist/lichtblick-${{ env.new_version }}-mac-universal.dmg
+          echo 42 > dist/lichtblick-${{ env.new_version }}-win.exe
+          echo 42 > dist/latest-linux.yml
+          echo 42 > dist/latest-mac.yml
+          echo 42 > dist/latest.yml
 
       - name: Commit and tag the new version
         run: |
