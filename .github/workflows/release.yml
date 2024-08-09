@@ -64,7 +64,7 @@ jobs:
 
       # Step 8: Create a release with renamed files
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1.14
+        uses: ncipollo/release-action@v1
         with:
           tag: "v${{ env.new_version }}"
           name: "v${{ env.new_version }}"
