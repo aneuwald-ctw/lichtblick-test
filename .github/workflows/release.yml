@@ -5,7 +5,8 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    # runs-on: macos-latest using ubuntu for tests
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
