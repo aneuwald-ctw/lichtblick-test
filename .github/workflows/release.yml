@@ -40,10 +40,18 @@ jobs:
   
       - name: Build software in parallel
         run: |
-          yarn run package:win &
-          yarn run package:linux &
-          yarn run package:darwin &
-          wait
+          #yarn run package:win &
+          #yarn run package:linux &
+          #yarn run package:darwin &
+          #wait
+          # comment it for test
+          mkdir dist
+          touch dist/lichtblick-${{ env.new_version }}-linux-amd64.deb
+          touch dist/lichtblick-${{ env.new_version }}-mac-universal.dmg
+          touch dist/lichtblick-${{ env.new_version }}-win.exe
+          touch dist/latest-linux.yml
+          touch dist/latest-mac.yml
+          touch dist/latest.yml
 
       - name: Commit and tag the new version
         run: |
@@ -51,17 +59,18 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add package.json packages/suite/package.json yarn.lock
           git commit -m "Bump version v${{ env.new_version }}"
-          git tag "v${{ env.new_version }}"
+          git tag -a "v${{ env.new_version }}"
           git push origin main --tags
 
       # Step 8: Create a release with renamed files
       - name: Create GitHub Release
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.14
         with:
           tag: "v${{ env.new_version }}"
-          name: "Release v${{ env.new_version }}"
+          name: "v${{ env.new_version }}"
           commit: main
-          files: |
+          generateReleaseNotes: true
+          artifacts: |
             dist/lichtblick-${{ env.new_version }}-linux-amd64.deb
             dist/lichtblick-${{ env.new_version }}-mac-universal.dmg
             dist/lichtblick-${{ env.new_version }}-win.exe
