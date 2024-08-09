@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: 16.17
   
-      - name: Enable corepack
-        run: corepack enable yarn
+      #- name: Enable corepack
+      #  run: corepack enable yarn
 
       - name: Bump minor version and save it on environment variable
         run: |
@@ -32,12 +32,12 @@ jobs:
         run: yarn version minor
         working-directory: packages/suite
         
-      - name: Install dependencies
-        run: yarn install --immutable
+      #- name: Install dependencies
+      #  run: yarn install --immutable
 
-      - name: Build prod files
-        run: |
-          yarn run desktop:build:prod
+      #- name: Build prod files
+      #  run: |
+      #    yarn run desktop:build:prod
   
       - name: Build software in parallel
         run: |
